@@ -1,0 +1,611 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Verdadero o Falso — Alquimia</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <style>
+    
+@import url('https://fonts.googleapis.com/css2?family=Bona+Nova+SC:ital,wght@0,400;0,700;1,400&family=Elsie:wght@400;900&family=Fleur+De+Leah&family=Quicksand:wght@300..700&family=Roboto:ital,wght@0,100..900;1,100..900&family=Volkhov:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+
+    :root {
+      --violet: #9444B6;
+      --violet-light:#c9a8e8;
+      --background:#f9f6fb;
+      --text-dark:#2b2540;
+      --accent:#eae1f6;
+      --shadow:0 6px 24px rgba(111,59,179,0.18);
+        --font-roboto: "Roboto", sans-serif;
+  --font-principal: "Volkhov", serif;
+    }
+
+   body {
+  font-family: 'Inter', sans-serif;
+  background: url('hero.png') no-repeat center center fixed;
+  background-size: cover;
+  color: var(--text-dark);
+  margin: 0;
+  padding: 20px;
+  max-width: 880px;
+  margin-inline: auto;
+  position: relative;
+  overflow-x: hidden;
+}
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 10, 25, 0.55); 
+  backdrop-filter: blur(2px);
+  z-index: -1;
+}
+
+    h1 {
+  font-family: var(--font-principal);
+      font-size: 2.3rem;
+      color: var(--violet);
+      text-align: center;
+      margin-bottom: 0.6rem;
+      position: relative;
+            color: #fff;
+
+    }
+
+    h1::after {
+      content: "";
+      display: block;
+      width: 80px;
+      height: 4px;
+      border-radius: 4px;
+      margin: 8px auto 0;
+      background: linear-gradient(90deg, #c89aff, #8f4edd, #d2a6ff);
+    }
+
+    .small {
+      text-align: center;
+      color: white;
+      margin-bottom: 20px;
+      font-size: 1rem;
+  font-family: var( --font-roboto);
+
+
+    }
+
+    .controls {
+      display: flex;
+      gap: 10px;
+      margin: 16px 0;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    /* Botones */
+.answer-buttons {
+  display: flex;
+  width: 100%;
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 50px;
+  margin-top: 30px;
+}
+
+.answer-buttons button {
+  flex: 1;
+  height: 60px;
+  border: none;
+  font-size: 1.2rem;
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.answer-buttons button:first-child {
+  background: linear-gradient(135deg, #4CAF50, #6ad46a);
+}
+
+.answer-buttons button:last-child {
+  background: linear-gradient(135deg, #d13c3c, #ff6b6b);
+}
+
+.answer-buttons button:hover {
+  transform: scale(1.05);
+  filter: brightness(1.15);
+  box-shadow: 0 0 15px rgba(255,255,255,0.3);
+}
+
+.answer-buttons button:active {
+  transform: scale(0.95);
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+    .card {
+      background: #fff;
+      padding: 40px;
+      border-radius: 16px;
+      box-shadow: var(--shadow);
+      margin-top: 16px;
+      position: relative;
+      overflow: hidden;
+      animation: fadeIn 0.4s ease;
+      min-height: 200px;
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      top: -60px;
+      right: -60px;
+      width: 160px;
+      height: 160px;
+      background: radial-gradient(circle, rgba(111,59,179,0.12) 0%, transparent 70%);
+      z-index: 0;
+    }
+
+    .question {
+      font-size: 1.3rem;
+      font-weight: 600;
+      margin-bottom: 14px;
+      z-index: 2;
+      position: relative;
+      text-align: center;
+        margin-top: 20px;
+
+    }
+
+    .footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 14px;
+      color: #6b5a83;
+      font-size: 0.9rem;
+    }
+
+.magic-bubbles {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: -1;
+  overflow: hidden;
+}
+
+.bubble {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, rgba(181,133,255,0.45), rgba(255,255,255,0));
+  animation: float 8s infinite ease-in-out;
+  opacity: 0.65;
+}
+
+@keyframes float {
+  0% { transform: translateY(0) scale(1); opacity: 0.8; }
+  50% { transform: translateY(-40px) scale(1.15); opacity: 1; }
+  100% { transform: translateY(0) scale(1); opacity: 0.8; }
+}
+
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+/* 🧪 Quimi animado lateral */
+.quimi-container {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 20;
+  animation: fadeIn 0.6s ease;
+  padding: 0 8px 2px 0; /* pequeño respiro visual sin separar demasiado */
+}
+
+
+.quimi-character {
+  width: 150px;
+  height: auto;
+  margin-bottom: -10px;
+}
+
+@keyframes floatQuimi {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+.quimi-bubble {
+  background: rgba(255,255,255,0.95);
+  color: #2b2540;
+  padding: 10px 14px;
+  border-radius: 14px;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.15);
+  font-family: var(--font-roboto);
+  font-size: 0.95rem;
+  text-align: center;
+  max-width: 190px;
+  margin-bottom: 10px;
+  position: relative;
+  transition: opacity 0.5s ease;
+}
+
+.quimi-bubble::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 8px 8px 0 8px;
+  border-style: solid;
+  border-color: rgba(255,255,255,0.95) transparent transparent transparent;
+}
+
+
+@media (max-width: 700px) {
+  .quimi-container {
+    right: 10px;
+    bottom: 10px;
+  }
+  .quimi-character {
+    width: 90px;
+  }
+  .quimi-bubble {
+    font-size: 0.85rem;
+    max-width: 180px;
+  }
+}
+.logo {
+  width: 100px;
+  position: absolute;
+  top: 20px;
+  left: -180px;
+}
+  </style>
+</head>
+<body>
+  <img src="LogotipoVioleta.svg" alt="logo" class="logo">
+  <h1>Quiz <br>
+    VERDADERO - FALSO  </h1>
+  <p class="small">Descubrí cuánto sabés sobre perfumes ✨</p>
+
+  <div id="gameArea">
+    <div id="stage"></div>
+  </div>
+
+<div class="magic-bubbles">
+  <!-- burbujas grandes -->
+  <div class="bubble" style="top:10%;left:15%;width:70px;height:70px;animation-delay:0s"></div>
+  <div class="bubble" style="top:70%;left:80%;width:50px;height:50px;animation-delay:1s"></div>
+  <div class="bubble" style="top:50%;left:60%;width:65px;height:65px;animation-delay:2s"></div>
+
+  <!-- burbujas medianas -->
+  <div class="bubble" style="top:20%;left:35%;width:40px;height:40px;animation-delay:0.5s;animation-duration:7s"></div>
+  <div class="bubble" style="top:85%;left:25%;width:45px;height:45px;animation-delay:1.8s;animation-duration:6.5s"></div>
+  <div class="bubble" style="top:60%;left:5%;width:35px;height:35px;animation-delay:2.3s;animation-duration:8s"></div>
+  <div class="bubble" style="top:90%;left:70%;width:38px;height:38px;animation-delay:3s;animation-duration:7.8s"></div>
+  <div class="bubble" style="top:40%;left:90%;width:30px;height:30px;animation-delay:4s;animation-duration:6s"></div>
+  <div class="bubble" style="top:10%;left:80%;width:42px;height:42px;animation-delay:3.5s;animation-duration:7.2s"></div>
+
+  <!-- burbujas pequeñas -->
+  <div class="bubble" style="top:5%;left:5%;width:18px;height:18px;animation-delay:0.8s;animation-duration:5s"></div>
+  <div class="bubble" style="top:25%;left:75%;width:15px;height:15px;animation-delay:2s;animation-duration:6s"></div>
+  <div class="bubble" style="top:45%;left:50%;width:20px;height:20px;animation-delay:3s;animation-duration:7s"></div>
+  <div class="bubble" style="top:65%;left:30%;width:17px;height:17px;animation-delay:1.5s;animation-duration:6.8s"></div>
+  <div class="bubble" style="top:95%;left:10%;width:22px;height:22px;animation-delay:4.5s;animation-duration:8s"></div>
+  <div class="bubble" style="top:80%;left:50%;width:16px;height:16px;animation-delay:2.8s;animation-duration:6.2s"></div>
+  <div class="bubble" style="top:75%;left:90%;width:19px;height:19px;animation-delay:5s;animation-duration:5.5s"></div>
+  <div class="bubble" style="top:35%;left:10%;width:14px;height:14px;animation-delay:3.2s;animation-duration:7.5s"></div>
+  <div class="bubble" style="top:55%;left:85%;width:21px;height:21px;animation-delay:1.2s;animation-duration:8.3s"></div>
+  <div class="bubble" style="top:88%;left:40%;width:15px;height:15px;animation-delay:4.8s;animation-duration:6s"></div>
+</div>
+
+ <!-- 🧙‍♀️ Quimi acompañante -->
+<div class="quimi-container">
+  <div class="quimi-bubble">
+    <span id="quimi-text">💡 ¿Listo para descubrir tus conocimientos aromáticos?</span>
+  </div>
+  <img src="lookingQuimi.png" alt="Quimi" class="quimi-character" />
+</div>
+  <script>
+    const stage = document.getElementById('stage');
+
+    // 💜 Todas las preguntas precargadas
+    const allItems = [
+      // Serie 1
+      ["El perfume dura más si lo guardás en la heladera", false],
+      ["Aplicar perfume en las muñecas y frotarlas entre sí ayuda a fijarlo mejor", false],
+      ["Los perfumes tienen fecha de vencimiento", true],
+      ["El calor puede alterar la fragancia de un perfume", true],
+      ["Todos los perfumes contienen alcohol", false],
+      // Serie 2
+      ["Las notas de salida son las primeras que percibimos al aplicar un perfume", true],
+      ["Una nota de fondo desaparece rápidamente", false],
+      ["La familia floral incluye aromas como jazmín y rosa", true],
+      ["Las notas cítricas suelen dar frescura al perfume", true],
+      ["El sándalo pertenece a las notas amaderadas", true],
+      // Serie 3
+      ["Cada persona percibe el mismo perfume de igual manera", false],
+      ["El olfato está directamente relacionado con la memoria", true],
+      ["Oler granos de café entre perfumes 'resetea' el olfato", true],
+      ["Los perfumes pueden cambiar de aroma según el tipo de piel", true],
+      ["El olfato humano puede distinguir más de 1 billón de olores", true],
+      // Serie 4
+      ["Los egipcios fueron de los primeros en usar perfumes", true],
+      ["'Perfume' viene del latín 'per fumum', que significa 'a través del humo'", true],
+      ["El primer perfume moderno se creó en el siglo XIX", true],
+      ["Coco Chanel fue la creadora del perfume Nº 5", true],
+      ["En la Edad Media, los perfumes eran usados solo por los hombres", false],
+      // Serie 5
+      ["Las notas verdes evocan hojas y hierbas frescas", true],
+      ["Las notas marinas se inspiran en el olor del océano", true],
+      ["Las notas gourmand recuerdan a postres y dulces", true],
+      ["El vetiver tiene un aroma cítrico y fresco", false],
+      ["Las notas especiadas suelen incluir canela o clavo", true],
+      // Serie 6
+      ["Los perfumes orientales suelen ser cálidos e intensos", true],
+      ["Un 'Eau de Parfum' tiene menor concentración que un 'Eau de Toilette'", false],
+      ["Los perfumes unisex no tienen notas florales", false],
+      ["Un perfume ligero es ideal para verano", true],
+      ["Los perfumes más dulces suelen usarse en invierno", true],
+      // Serie 7
+      ["Un perfumista se llama 'nariz'", true],
+      ["Las fórmulas de perfume se componen de agua, alcohol y aceites esenciales", true],
+      ["Las notas de corazón son el alma del perfume", true],
+      ["La proporción de aceites esenciales define la intensidad del perfume", true],
+      ["Todos los perfumes se elaboran de forma industrial", false],
+      // Serie 8
+      ["La lavanda pertenece a la familia amaderada", false],
+      ["La vainilla suele aparecer en perfumes orientales", true],
+      ["El limón es una nota de salida clásica", true],
+      ["El ámbar se usa en notas de fondo", true],
+      ["El jazmín es una nota de corazón muy usada", true],
+      // Serie 9
+      ["Las personas alegres prefieren perfumes dulces", true],
+      ["Un perfume puede influir en tu estado de ánimo", true],
+      ["Los perfumes intensos se recomiendan para el día", false],
+      ["Las fragancias frescas transmiten energía", true],
+      ["La elección del perfume puede reflejar tu personalidad", true],
+      // Serie 10
+      ["Cada perfume combina al menos una nota de salida, corazón y fondo", true],
+      ["En Alquimia podés crear tu propia fórmula personalizada", true],
+      ["Las combinaciones imposibles no existen si sabés equilibrarlas", true],
+      ["Las familias olfativas principales son floral, amaderada, oriental y fresca", true],
+      ["La magia de Alquimia está en descubrir tu esencia única", true],
+      // Serie 11
+      ["El jazmín se considera afrodisíaco", true],
+      ["La rosa solo se usa en perfumes femeninos", false],
+      ["El lirio aporta un toque dulce a las fragancias", true],
+      ["La lavanda tiene un efecto relajante y calmante", true],
+      ["El azahar es una nota de fondo", false],
+      // Serie 12
+      ["Los perfumes cítricos son ideales para el invierno", false],
+      ["Las fragancias orientales se disfrutan más en días fríos", true],
+      ["En verano conviene aplicar menos cantidad de perfume", true],
+      ["Los perfumes frescos combinan bien con el calor", true],
+      ["El calor hace que un perfume dure más", false],
+      // Serie 13
+      ["La base de un perfume se llama 'acorde'", true],
+      ["Mezclar demasiadas notas distintas puede generar un aroma desequilibrado", true],
+      ["El alcohol en los perfumes no tiene olor", true],
+      ["Los perfumes sólidos se aplican igual que los líquidos", false],
+      ["Un perfume se puede hacer sin notas de fondo", false],
+      // Serie 14
+      ["Los mejores puntos son donde hay más pulso, como cuello y muñecas", true],
+      ["Aplicarlo en la ropa intensifica su aroma", false],
+      ["El perfume se fija mejor sobre la piel hidratada", true],
+      ["No conviene aplicarlo justo después de bañarse", false],
+      ["Aplicarlo en el cabello ayuda a prolongar el aroma", true],
+      // Serie 15
+      ["El olfato es el único sentido que conecta directo con las emociones", true],
+      ["Olemos con la lengua y la nariz al mismo tiempo", false],
+      ["Un perfume puede evocar recuerdos de la infancia", true],
+      ["Si estás resfriado, tu percepción olfativa no cambia", false],
+      ["Cada persona tiene una 'firma olfativa' única", true],
+      // Serie 16
+      ["Las notas cítricas suelen generar sensación de alegría", true],
+      ["Los perfumes amaderados transmiten energía y vitalidad", false],
+      ["Las fragancias dulces se asocian a la ternura", true],
+      ["Los aromas frescos pueden aumentar la concentración", true],
+      ["Los perfumes especiados provocan sueño", false],
+      // Serie 17
+      ["Los aceites esenciales se obtienen por destilación o prensado", true],
+      ["Un perfume con más alcohol dura más", false],
+      ["Los compuestos sintéticos permiten recrear aromas naturales raros", true],
+      ["El pH de la piel puede modificar el perfume", true],
+      ["El agua destilada es igual al alcohol en una fórmula", false],
+      // Serie 18
+      ["Las notas de fondo determinan cuánto dura el perfume", true],
+      ["Guardar el perfume al sol ayuda a intensificar su aroma", false],
+      ["Un perfume concentrado suele durar más horas", true],
+      ["Las fragancias frescas son las más duraderas", false],
+      ["Aplicar crema sin aroma antes del perfume ayuda a fijarlo", true],
+      // Serie 19
+      ["El limón es una nota cítrica", true],
+      ["Las notas de salida son las primeras que se perciben", true],
+      ["El jazmín pertenece a la familia floral", true],
+      ["Las notas de fondo duran más tiempo", true],
+      ["La lavanda tiene un aroma dulce y amaderado", false],
+      // Serie 20
+      ["Un perfume tiene notas de salida, corazón y fondo", true],
+      ["El limón es una nota cítrica", true],
+      ["El jazmín pertenece a la familia floral", true],
+      ["El sándalo es una nota amaderada", true],
+      ["El azúcar es una nota marina", false]
+    ].map(([statement, answer]) => ({ statement, answer }));
+
+    function shuffle(a){
+      for(let i=a.length-1;i>0;i--){
+        const j = Math.floor(Math.random()*(i+1));
+        [a[i], a[j]] = [a[j], a[i]];
+      }
+    }
+
+    let deck = [], idx = 0, score = 0;
+    startGame();
+
+    function startGame(){
+      shuffle(allItems);
+      deck = allItems.slice(0,5); // juega con 5 al azar
+      idx = 0; score = 0;
+      showQuestion();
+    }
+
+    function showQuestion(){
+      stage.innerHTML = '';
+  if(idx >= deck.length){
+  const end = document.createElement('div');
+  end.className = 'card';
+  end.innerHTML = `
+    <div style="text-align:center; padding:20px;">
+      <h3 style="
+        font-family: var(--font-principal);
+        font-size: 1.8rem;
+        color: var(--violet);
+        padding-bottom: 10px;
+        margin: 0 auto;
+      ">✨ ¡Gracias por participar! ✨</h3>
+      <p class="small" style="
+        color:#4a3b66;
+        margin-bottom: 25px;
+        font-size:1rem;
+      ">
+        Tu puntaje final fue <strong>${score} / ${deck.length}</strong><br>
+        ¡Seguimos descubriendo juntos la magia de las fragancias!
+      </p>
+      <button id="restart" style="
+        background: linear-gradient(135deg, #6f3bb3, #8f4edd);
+        color: white;
+        border: none;
+        padding: 12px 24px;
+        border-radius: 12px;
+        font-weight: 600;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 6px 18px rgba(111,59,179,0.3);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        margin: 0 auto;
+      ">
+<i class="fa-solid fa-rotate-left" style="font-size:1.2rem;"></i> Volver a jugar
+      </button>
+    </div>`;
+  
+  stage.appendChild(end);
+
+  const restartBtn = document.getElementById('restart');
+  restartBtn.onmouseover = () => restartBtn.style.filter = 'brightness(1.15)';
+  restartBtn.onmouseout = () => restartBtn.style.filter = 'brightness(1)';
+  restartBtn.onclick = startGame;
+  return;
+}
+
+      const q = deck[idx];
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.innerHTML = `
+        <div class="question">${q.statement}</div>
+       <div class="answer-buttons">
+          <button id="btnTrue">Verdadero</button>
+          <button id="btnFalse">Falso</button>
+        </div>
+        <div class="footer">
+          <div>Pregunta ${idx+1} de ${deck.length}</div>
+          <div>Puntaje: ${score}</div>
+        </div>`;
+      stage.appendChild(card);
+
+      document.getElementById('btnTrue').onclick = ()=>handleAnswer(true);
+      document.getElementById('btnFalse').onclick = ()=>handleAnswer(false);
+    }
+
+ function handleAnswer(choice) {
+  const q = deck[idx];
+  const correct = (choice === q.answer);
+  if (correct) score++;
+
+  // Seleccionamos la tarjeta actual
+  const card = document.querySelector('.card');
+
+  // Eliminamos los botones de respuesta
+  const btnContainer = card.querySelector('.answer-buttons');
+  if (btnContainer) btnContainer.remove();
+
+  // Insertamos el resultado justo encima del footer, sin desplazarlo
+  const resultDiv = document.createElement('div');
+  resultDiv.style.textAlign = 'center';
+  resultDiv.style.margin = '25px 0';
+  resultDiv.style.animation = 'fadeIn 0.4s ease';
+  resultDiv.innerHTML = `
+    <div style="font-weight:600;font-size:20px;color:${correct ? '#4CAF50' : '#d13c3c'}">
+      ${correct ? '✅ ¡Correcto!' : '❌ Incorrecto!'}
+    </div>
+    <div class="small" style="margin-top:6px">
+      Respuesta: <strong>${q.answer ? 'Verdadero' : 'Falso'}</strong>
+    </div>
+    <div style="margin-top:15px">
+      <button id="next" class="secondary" style="
+        background: linear-gradient(135deg, var(--violet), #8f4edd);
+        color: white;
+        border: none;
+        padding: 10px 18px;
+        border-radius: 10px;
+        font-weight: 600;
+        cursor: pointer;
+        box-shadow: var(--shadow);
+        transition: all 0.3s ease;
+      ">
+        <i class="fa-solid fa-arrow-right" style="font-size:1rem; padding-right: 5px;"></i> Siguiente
+      </button>
+    </div>
+  `;
+
+  // Insertamos el resultado antes del footer
+  const footer = card.querySelector('.footer');
+  card.insertBefore(resultDiv, footer);
+
+  // Acción del botón “Siguiente”
+  document.getElementById('next').onclick = () => {
+    idx++;
+    showQuestion();
+  };
+}
+
+// 💬 Frases aleatorias de Quimi
+const quimiPhrases = [
+  "💡 ¿Listo para descubrir tus conocimientos aromáticos?",
+  "✨ La nariz también aprende con práctica, ¿sabías?",
+  "🧴 Cada perfume guarda una historia… ¿cuántas conocés?",
+  "🌸 ¡Vamos! Seguro acertás esta.",
+  "🌿 No hay fragancia sin curiosidad.",
+  "🧪 Hacer perfumes también es un poco de magia…",
+  "💜 ¡Estás oliendo el éxito!",
+  "🔮 Tu instinto olfativo nunca falla.",
+  "🌺 ¡Confía en tu nariz alquímica!"
+];
+
+const quimiText = document.getElementById("quimi-text");
+
+setInterval(() => {
+  const randomPhrase = quimiPhrases[Math.floor(Math.random() * quimiPhrases.length)];
+  quimiText.style.opacity = 0;
+  setTimeout(() => {
+    quimiText.textContent = randomPhrase;
+    quimiText.style.opacity = 1;
+  }, 500);
+}, 6000);
+
+
+  </script>
+
+</body>
+</html>
