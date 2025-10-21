@@ -247,11 +247,28 @@ body::before {
   border-color: rgba(255,255,255,0.95) transparent transparent transparent;
 }
 
+.logo {
+  width: 100px;
+  position: absolute;
+  top: 20px;
+  left: -180px;
+}
 
 @media (max-width: 700px) {
-  .quimi-container {
-    right: 10px;
-    bottom: 10px;
+.quimi-container {
+    right: 5px;
+    transform: scale(0.9); 
+  }
+
+  h1 {
+    font-size: 1.8rem;
+    line-height: 1.2;
+    white-space: nowrap; 
+  }
+
+  .card h3 {
+    font-size: 1.4rem;
+    white-space: nowrap; 
   }
   .quimi-character {
     width: 90px;
@@ -260,13 +277,16 @@ body::before {
     font-size: 0.85rem;
     max-width: 180px;
   }
+    .logo {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    width: 70px; 
+    z-index: 50; 
+  }
+
 }
-.logo {
-  width: 100px;
-  position: absolute;
-  top: 20px;
-  left: -180px;
-}
+
   </style>
 </head>
 <body>
