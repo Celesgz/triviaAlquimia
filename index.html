@@ -602,22 +602,87 @@
       ["El azúcar es una nota marina", false]
     ].map(([statement, answer]) => ({ statement, answer }));
 
+    const extraItems = [
+  ["Un Eau de Parfum suele durar más en piel que un Eau de Toilette", true],
+  ["La proyección (estela) es cuánto se percibe el perfume alrededor tuyo", true],
+  ["Las notas cítricas suelen durar más que las amaderadas", false],
+  ["Frotar las muñecas puede acelerar la evaporación de las notas de salida", true],
+  ["Guardar perfumes en lugar fresco y oscuro ayuda a conservarlos", true],
+  ["Rociar perfume directamente en el cabello no reseca porque no tiene alcohol", false],
+  ["Un body splash tiene menor concentración aromática que una colonia clásica", true],
+  ["El patchouli envejecido suele oler más suave y menos verde que el fresco", true],
+  ["La bergamota suele utilizarse como nota de salida", true],
+  ["Las fragancias ozónicas/acuáticas evocan aire limpio y mar", true],
+  ["Los testers suelen tener exactamente la misma fórmula que el frasco de venta", true],
+  ["Aplicar el spray a unos 10–20 cm mejora la distribución", true],
+  ["Un perfume olerá igual en tira olfativa y en piel", false],
+  ["La piel seca suele hacer que el perfume dure menos", true],
+  ["En climas fríos funcionan bien fragancias más intensas y ambaradas", true],
+  ["Las notas de té dan sensación limpia y ligera", true],
+  ["La familia chipre combina cítricos arriba y musgo/pachulí en el fondo", true],
+  ["La familia fougère se basa en lavanda, coumarina y maderas", true],
+  ["La gardenia natural se destila fácilmente para obtener su aceite", false],
+  ["El musk moderno suele oler limpio y suave", true],
+  ["La nota cuero proviene directamente de un aceite esencial llamado 'cuero'", false],
+  ["La duración de un perfume depende también de clima y cantidad aplicada", true],
+  ["Algunas esencias cítricas pueden ser fotosensibilizantes al sol", true],
+  ["El layering es combinar perfumes para crear un acorde propio", true],
+  ["Rociar sobre ropa nunca mancha: siempre es seguro", false],
+  ["Las notas avainilladas suelen sentirse cálidas y confortables", true],
+  ["Vetiver es típicamente amaderado-terroso", true],
+  ["El 'sillage' es la estela que dejás al pasar", true],
+  ["Los perfumes frescos y cítricos suelen sentirse mejor en verano", true],
+  ["Los perfumes nicho siempre son más concentrados que los comerciales", false],
+  ["Un decant hecho con herramientas limpias no debería alterar el aroma", true],
+  ["Los perfumes con mucha vainilla siempre duran menos que los cítricos", false],
+  ["Una misma fragancia puede proyectar distinto según la persona", true],
+  ["Un envase airless evita por completo la oxidación del jugo", false],
+  ["El jazmín se usa solo en perfumes femeninos", false],
+  ["El sándalo aporta cremosidad y suavidad al fondo", true],
+  ["Los perfumes gourmand recuerdan a postres como vainilla o caramelo", true],
+  ["Las fragancias con más notas amaderadas suelen tener mejor fijación", true],
+  ["Rociar sobre prendas delicadas como seda puede dañarlas", true],
+  ["Una fragancia puede 'madurar' unos días tras mezclarse (maceración)", true]
+].map(([statement, answer]) => ({ statement, answer }));
+
     function shuffle(a) {
       for (let i = a.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
         [a[i], a[j]] = [a[j], a[i]];
       }
     }
+const STORAGE_KEY = 'alquimia_tf_bag_v1';
 
+function rebuildBag(total) {
+  const bag = Array.from({ length: total }, (_, i) => i);
+  shuffle(bag); 
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(bag));
+  return bag;
+}
+
+function popFromBag(n, total) {
+  let bag = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+  if (!Array.isArray(bag) || bag.length < n || bag.some(i => i >= total)) {
+    bag = rebuildBag(total);
+  }
+  const taken = bag.splice(0, n);
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(bag));
+  return taken;
+}
     let deck = [], idx = 0, score = 0;
     startGame();
 
-    function startGame() {
-      shuffle(allItems);
-      deck = allItems.slice(0, 5);
-      idx = 0; score = 0;
-      showQuestion();
-    }
+function startGame() {
+  const pool = allItems.concat(extraItems); 
+  const total = pool.length;
+
+  const drawnIdxs = popFromBag(5, total);
+  deck = drawnIdxs.map(i => pool[i]);
+
+  idx = 0; 
+  score = 0;
+  showQuestion();
+}
 
     function showQuestion() {
       stage.innerHTML = '';
